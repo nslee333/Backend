@@ -8,14 +8,9 @@ app.get('/', (req, res) => {
     res.render('index', { text: "World"});
 })
 
-app.get('/users', (req, res) => {
-    res.send('User List');
-});
+const userRouter = require('./routes/users');
 
-app.get('/users/new', (req, res) => {
-    res.send('User New Forum');
-});
-
+app.use('/users', userRouter);
 
 app.listen(3000);
 

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 
+router.use(logger);
 
 
 router.get('/', (req, res) => {
@@ -9,11 +10,22 @@ router.get('/', (req, res) => {
 });
 
 router.get('/new', (req, res) => {
-    res.send('User New Forum');
+    console.log(req.query.name);
+    res.render("users/new", { firstName: "Test" });
 });
 
 router.post('/', (req, res) => {
-    res.send('Create User');
+    const isValid = false;
+    if (isValid) {
+        users.push({firstName: req.body.firstName });
+        res.redirect(`/users/${users.length - 1}`);
+
+    } else {
+        console.log("Error");
+        res.render('users/new', { firstName: req.body.firstName })
+    }
+    console.log(req.body.firstName);
+    res.send("Hi");
 });
 
 
@@ -52,7 +64,12 @@ router.route("/:id")
 router.param("id", (req, res, next, id) => {
     req.user = users[id];
     next();
-})
+});
+
+function logger(req, res, next) {
+    console.log(req.originalUrl);
+    next();
+};
 
 
 
